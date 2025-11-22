@@ -265,12 +265,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\exp 7.html">About us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\home page micro.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\micro features.html">Features</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="C:\Users\Arnav\Downloads\micro trackers.html">Track Water</a></li>
-                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\micro conservation tips.html">Tips</a></li>
-                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\micro SDG.html">SDG Justification</a></li>
+                    <li class="nav-item"><a class="nav-link" href="exp 7.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="micro features.html">Features</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="micro trackers.html">Track Water</a></li>
+                    <li class="nav-item"><a class="nav-link" href="micro conservation tips.html">Tips</a></li>
+                    <li class="nav-item"><a class="nav-link" href="micro SDG.html">SDG Justification</a></li>
                 </ul>
             </div>
         </div>
@@ -372,11 +372,11 @@
                 <div class="col-lg-4 col-md-6 mb-4 footer-section">
                     <h5>Quick Links</h5>
                     <ul>
-                        <li><a href="C:\Users\Arnav\Downloads\micro Home.html">Home</a></li>
-                        <li><a href="C:\Users\Arnav\Downloads\micro features.html">Features</a></li>
-                        <li><a href="C:\Users\Arnav\Downloads\micro trackers.html">Track Water</a></li>
-                        <li><a href="C:\Users\Arnav\Downloads\micro goals.html">Goals</a></li>
-                        <li><a href="C:\Users\Arnav\Downloads\micro conservation tips.html">Conservation Tips</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="micro features.html">Features</a></li>
+                        <li><a href="micro trackers.html">Track Water</a></li>
+                        <li><a href="micro goals.html">Goals</a></li>
+                        <li><a href="micro conservation tips.html">Conservation Tips</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4 footer-section">
@@ -397,7 +397,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      
+     
          let waterActivities = [];
         let dailyGoal = 0;
         let streakDays = 1;
@@ -425,11 +425,11 @@
 
         document.getElementById('waterTrackerForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+           
             const category = document.getElementById('activityCategory').value;
             const amount = parseFloat(document.getElementById('waterAmount').value);
             const notes = document.getElementById('activityNotes').value;
-            
+           
             if (category && amount > 0) {
                 const activity = {
                     id: Date.now(),
@@ -438,20 +438,20 @@
                     notes: notes,
                     timestamp: new Date().toLocaleTimeString()
                 };
-                
+               
                 waterActivities.push(activity);
                 displayActivities();
                 updateStatistics();
-                
+               
                 this.reset();
-                
+               
                 showNotification('Activity logged successfully!', 'success');
             }
         });
 
         function displayActivities() {
             const activityList = document.getElementById('activityList');
-            
+           
             if (waterActivities.length === 0) {
                 activityList.innerHTML = `
                     <div class="empty-state">
@@ -487,7 +487,7 @@
 
         function setGoal() {
             const goalAmount = parseFloat(document.getElementById('goalAmount').value);
-            
+           
             if (goalAmount > 0) {
                 dailyGoal = goalAmount;
                 document.getElementById('goalProgress').style.display = 'block';
@@ -500,11 +500,11 @@
         function updateGoalProgress() {
             const totalUsage = waterActivities.reduce((sum, activity) => sum + activity.amount, 0);
             const progressPercent = Math.min((totalUsage / dailyGoal) * 100, 100);
-            
+           
             document.getElementById('progressBar').style.width = progressPercent + '%';
             document.getElementById('progressBar').textContent = progressPercent.toFixed(1) + '%';
             document.getElementById('progressBar').setAttribute('aria-valuenow', progressPercent);
-            
+           
             const goalMessage = document.getElementById('goalMessage');
             if (totalUsage <= dailyGoal) {
                 goalMessage.innerHTML = `<div class="alert alert-success"><i class="fas fa-trophy me-2"></i>Great job! You're within your goal!</div>`;
@@ -530,7 +530,7 @@
             `;
             toast.textContent = message;
             document.body.appendChild(toast);
-            
+           
             setTimeout(() => {
                 toast.style.animation = 'slideOut 0.3s ease-out';
                 setTimeout(() => toast.remove(), 300);
@@ -589,4 +589,5 @@
         });
     </script>
 </body>
+
 </html>
