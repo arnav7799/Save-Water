@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Save Every Drop - Track Water Usage</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0077be;
+            --secondary-blue: #00a8e8;
+            --accent-teal: #00b8a9;
+            --accent-green: #2ecc71;
+            --dark-text: #2c3e50;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #0077be, #00a8e8);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .tracker-section {
+            padding: 120px 0 80px;
+            background: var(--light-bg);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-blue);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        .tracker-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(0,168,232,0.25);
+        }
+
+        .btn-submit {
+            background: var(--accent-green);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46,204,113,0.3);
+        }
+
+        .activity-log {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .activity-item {
+            padding: 1rem;
+            border-left: 4px solid var(--secondary-blue);
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-category {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .activity-amount {
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .total-usage {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .total-usage h4 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        footer {
+            background: linear-gradient(90deg, #2c3e50, #34495e);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-section h5 {
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-teal);
+            transform: scale(1.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-droplet"></i>
+                Save Every Drop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\exp 7.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\home page micro.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\micro features.html">Features</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="C:\Users\Arnav\Downloads\micro trackers.html">Track Water</a></li>
+                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\micro conservation tips.html">Tips</a></li>
+                    <li class="nav-item"><a class="nav-link" href="C:\Users\Arnav\Downloads\micro SDG.html">SDG Justification</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tracker-section" id="tracker">
+        <div class="container">
+            <h2 class="section-title">Track Your Water Usage</h2>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="tracker-form">
+                        <h4 class="mb-4" style="color: var(--primary-blue);">Log Water Activity</h4>
+                        <form id="waterTrackerForm">
+                            <div class="mb-3">
+                                <label for="activityCategory" class="form-label">Activity Category</label>
+                                <select class="form-select" id="activityCategory" required>
+                                    <option value="">Select an activity...</option>
+                                    <option value="Showering">Showering</option>
+                                    <option value="Toilet Flushing">Toilet Flushing</option>
+                                    <option value="Laundry">Laundry</option>
+                                    <option value="Dishwashing">Dishwashing</option>
+                                    <option value="Outdoor Watering">Outdoor Watering</option>
+                                    <option value="Cooking & Drinking">Cooking &amp; Drinking</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="waterAmount" class="form-label">Water Amount (Gallons)</label>
+                                <input type="number" class="form-control" id="waterAmount" placeholder="Enter gallons used" min="0" step="0.1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="activityNotes" class="form-label">Notes (Optional)</label>
+                                <textarea class="form-control" id="activityNotes" rows="2" placeholder="Add any notes..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-submit">
+                                <i class="fas fa-plus-circle me-2"></i>Add Activity
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="activity-log">
+                        <h4 class="mb-4" style="color: var(--primary-blue);">Today's Activities</h4>
+                        <div id="activityList">
+                            <div class="empty-state">
+                                <i class="fas fa-droplet"></i>
+                                <p>No activities logged yet. Start tracking your water usage!</p>
+                            </div>
+                        </div>
+                        <div id="totalUsageDisplay" class="total-usage" style="display: none;">
+                            <div>Total Water Used Today</div>
+                            <h4 id="totalGallons">0 Gallons</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="goals-section" id="goals">
+        <div class="container">
+            <h2 class="section-title">Set Your Conservation Goals</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="goal-card">
+                        <h4 class="mb-4" style="color: var(--primary-blue);">Monthly Water Goal</h4>
+                        <div class="goal-input-group">
+                            <input type="number" class="form-control" id="goalAmount" placeholder="Enter your monthly goal (gallons)" min="0">
+                            <br><button class="btn btn-submit" onclick="setGoal()" style="width: auto;">
+                                <i class="fas fa-check-circle me-2"></i>Set Goal
+                            </button>
+                        </div>
+                        <div id="goalProgress" style="display: none;">
+                            <p class="mb-2"><strong>Goal:</strong> <span id="goalTarget">0</span> gallons</p>
+                            <p class="mb-2"><strong>Current Usage:</strong> <span id="currentUsage">0</span> gallons</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" id="progressBar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            </div>
+                            <div id="goalMessage" class="mt-3 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 footer-section">
+                    <h5>About Save Every Drop</h5>
+                    <p>We're committed to helping households conserve water through smart tracking and actionable insights. Together, we can make a difference for our planet.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="C:\Users\Arnav\Downloads\micro Home.html">Home</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro features.html">Features</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro trackers.html">Track Water</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro goals.html">Goals</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro conservation tips.html">Conservation Tips</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 footer-section">
+                    <h5>Contact Us</h5>
+                    <ul>
+                        <li><i class="fas fa-envelope me-2"></i>info@saveeverydrop.com</li>
+                        <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>123 Water St, Conservation City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Save Every Drop. All rights reserved. | Made with 💙 for our planet</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      
+         let waterActivities = [];
+        let dailyGoal = 0;
+        let streakDays = 1;
+
+        function updateStatistics() {
+            const totalUsage = waterActivities.reduce((sum, activity) => sum + activity.amount, 0);
+            const activitiesCount = waterActivities.length;
+            const dailyAverage = activitiesCount > 0 ? (totalUsage / Math.max(1, Math.ceil(activitiesCount / 5))).toFixed(1) : 0;
+
+            document.getElementById('totalUsage').textContent = totalUsage.toFixed(1);
+            document.getElementById('dailyAverage').textContent = dailyAverage;
+            document.getElementById('activitiesLogged').textContent = activitiesCount;
+            document.getElementById('streakDays').textContent = streakDays;
+
+            if (activitiesCount > 0) {
+                document.getElementById('totalUsageDisplay').style.display = 'block';
+                document.getElementById('totalGallons').textContent = totalUsage.toFixed(1) + ' Gallons';
+            }
+
+            if (dailyGoal > 0) {
+                document.getElementById('currentUsage').textContent = totalUsage.toFixed(1);
+                updateGoalProgress();
+            }
+        }
+
+        document.getElementById('waterTrackerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('activityCategory').value;
+            const amount = parseFloat(document.getElementById('waterAmount').value);
+            const notes = document.getElementById('activityNotes').value;
+            
+            if (category && amount > 0) {
+                const activity = {
+                    id: Date.now(),
+                    category: category,
+                    amount: amount,
+                    notes: notes,
+                    timestamp: new Date().toLocaleTimeString()
+                };
+                
+                waterActivities.push(activity);
+                displayActivities();
+                updateStatistics();
+                
+                this.reset();
+                
+                showNotification('Activity logged successfully!', 'success');
+            }
+        });
+
+        function displayActivities() {
+            const activityList = document.getElementById('activityList');
+            
+            if (waterActivities.length === 0) {
+                activityList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-droplet"></i>
+                        <p>No activities logged yet. Start tracking your water usage!</p>
+                    </div>
+                `;
+            } else {
+                activityList.innerHTML = waterActivities.map(activity => `
+                    <div class="activity-item">
+                        <div class="activity-details">
+                            <div class="activity-category">${activity.category}</div>
+                            <small class="text-muted">${activity.timestamp}</small>
+                            ${activity.notes ? `<div class="mt-1"><small>${activity.notes}</small></div>` : ''}
+                        </div>
+                        <div class="text-end">
+                            <div class="activity-amount">${activity.amount} gal</div>
+                            <button class="delete-btn mt-2" onclick="deleteActivity(${activity.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).reverse().join('');
+            }
+        }
+
+        function deleteActivity(id) {
+            waterActivities = waterActivities.filter(activity => activity.id !== id);
+            displayActivities();
+            updateStatistics();
+            showNotification('Activity deleted', 'info');
+        }
+
+        function setGoal() {
+            const goalAmount = parseFloat(document.getElementById('goalAmount').value);
+            
+            if (goalAmount > 0) {
+                dailyGoal = goalAmount;
+                document.getElementById('goalProgress').style.display = 'block';
+                document.getElementById('goalTarget').textContent = goalAmount.toFixed(1);
+                updateGoalProgress();
+                showNotification('Goal set successfully!', 'success');
+            }
+        }
+
+        function updateGoalProgress() {
+            const totalUsage = waterActivities.reduce((sum, activity) => sum + activity.amount, 0);
+            const progressPercent = Math.min((totalUsage / dailyGoal) * 100, 100);
+            
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('progressBar').textContent = progressPercent.toFixed(1) + '%';
+            document.getElementById('progressBar').setAttribute('aria-valuenow', progressPercent);
+            
+            const goalMessage = document.getElementById('goalMessage');
+            if (totalUsage <= dailyGoal) {
+                goalMessage.innerHTML = `<div class="alert alert-success"><i class="fas fa-trophy me-2"></i>Great job! You're within your goal!</div>`;
+            } else {
+                const excess = totalUsage - dailyGoal;
+                goalMessage.innerHTML = `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>You've exceeded your goal by ${excess.toFixed(1)} gallons. Try to conserve more!</div>`;
+            }
+        }
+
+        function showNotification(message, type) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? '#2ecc71' : type === 'info' ? '#3498db' : '#e74c3c'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                z-index: 9999;
+                animation: slideIn 0.3s ease-out;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function scrollToTracker() {
+            document.getElementById('tracker').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    const navbarCollapse = document.getElementById('navbarNav');
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarCollapse.classList.remove('show');
+                    }
+                }
+            });
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        window.addEventListener('load', function() {
+            updateStatistics();
+        });
+    </script>
+</body>
+</html>

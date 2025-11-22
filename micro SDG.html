@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDG Justification - Save Every Drop</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0077be;
+            --secondary-blue: #00a8e8;
+            --accent-teal: #00b8a9;
+            --accent-green: #2ecc71;
+            --dark-text: #2c3e50;
+            --light-bg: #f8f9fa;
+            --sdg6-blue: #26BDE2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f4f8 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #0077be, #00a8e8);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, rgba(0,119,190,0.95), rgba(0,168,232,0.95));
+            padding: 4rem 0 3rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header-section p {
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .content-section {
+            padding: 4rem 0;
+        }
+
+        .sdg-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease;
+            border: 3px solid var(--sdg6-blue);
+        }
+
+        .sdg-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .sdg-number {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: var(--sdg6-blue);
+            color: white;
+            border-radius: 50%;
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 80px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 20px rgba(38, 189, 226, 0.4);
+        }
+
+        .sdg-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--sdg6-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .sdg-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .sdg-image-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .sdg-image-container img {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(38, 189, 226, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .sdg-image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .justification-section {
+            background: linear-gradient(135deg, #e8f8fc, #f0f9ff);
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border-left: 5px solid var(--sdg6-blue);
+        }
+
+        .justification-section h3 {
+            color: var(--primary-blue);
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .justification-section p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .target-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border: 2px solid var(--accent-teal);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .target-box h4 {
+            color: var(--accent-teal);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .impact-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--accent-green);
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .impact-icon {
+            font-size: 2.5rem;
+            color: var(--accent-teal);
+            margin-bottom: 1rem;
+        }
+
+        .impact-card h5 {
+            font-weight: bold;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-card p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: linear-gradient(90deg, #2c3e50, #34495e);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-section h5 {
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 2rem;
+            }
+            
+            .sdg-card {
+                padding: 1.5rem;
+            }
+            
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-tint"></i>
+                Save Every Drop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="C:\Users\Arnav\Downloads\exp 7.html">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="C:\Users\Arnav\Downloads\home page micro.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="C:\Users\Arnav\Downloads\micro features.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="C:\Users\Arnav\Downloads\micro trackers.html">Track Water</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="C:\Users\Arnav\Downloads\micro conservation tips.html">Tips</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="C:\Users\Arnav\Downloads\micro SDG.html">SDG Goal</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="header-section">
+        <div class="container">
+            <h1><i class="fas fa-globe-americas me-3"></i>SDG Justification</h1>
+            <p>How our project contributes to global sustainability</p>
+        </div>
+    </section>
+    
+    <div class="sdg-image-container">
+        <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/9de842ff-68ca-46da-8acf-a42f9c66510a" alt="SDG 6 - Clean Water and Sanitation">
+    </div>
+    <section class="content-section">
+        <div class="container">
+            <div class="sdg-card">
+                <div class="sdg-header">
+                    <div class="sdg-number">6</div>
+                    <h2 class="sdg-title">Clean Water and Sanitation</h2>
+                    <p class="sdg-subtitle">Ensure availability and sustainable management of water and sanitation for all</p>
+                </div>
+
+
+                <div class="justification-section">
+                    <h3><i class="fas fa-lightbulb"></i> Why SDG 6?</h3>
+                    <p>
+                        Our "Save Every Drop" water tracker project directly aligns with <strong>Sustainable Development Goal 6: Clean Water and Sanitation</strong>. This goal aims to ensure availability and sustainable management of water and sanitation for all by 2030. With global water scarcity affecting over 2 billion people and projected to worsen due to climate change and population growth, household-level water conservation has become critical.
+                    </p>
+                    <p>
+                        By empowering families to track their daily water consumption across activities like showering, laundry, dishwashing, and outdoor watering, our website raises awareness about individual water footprints and encourages behavioral change toward more responsible usage patterns.
+                    </p>
+                </div>
+
+                <div class="target-box">
+                    <h4><i class="fas fa-bullseye me-2"></i>Specific Target: 6.4</h4>
+                    <p>
+                        <strong>"By 2030, substantially increase water-use efficiency across all sectors and ensure sustainable withdrawals and supply of freshwater to address water scarcity and substantially reduce the number of people suffering from water scarcity."</strong>
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        Our tracker directly supports this target by helping households measure and reduce their water consumption, thereby increasing water-use efficiency at the grassroots level. Small changes in millions of homes can collectively make a massive difference in preserving freshwater resources.
+                    </p>
+                </div>
+
+                <div class="stats-section">
+                    <h3 class="text-center mb-3"><i class="fas fa-chart-line me-2"></i>Global Water Crisis - Key Facts</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">2.2B</span>
+                            <span class="stat-label">People lack safe drinking water</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4.2B</span>
+                            <span class="stat-label">People lack safe sanitation</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">80%</span>
+                            <span class="stat-label">Of wastewater flows back untreated</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">70%</span>
+                            <span class="stat-label">Of natural disasters are water-related</span>
+                        </div>
+                    </div>
+                    <p class="text-center mt-3" style="font-size: 0.9rem; opacity: 0.9;">Source: United Nations World Water Development Report 2023</p>
+                </div>
+
+                <h3 class="text-center mt-5 mb-4" style="color: var(--primary-blue);">
+                    <i class="fas fa-hand-holding-water me-2"></i>How Our Project Makes an Impact
+                </h3>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5>Awareness & Measurement</h5>
+                        <p>Users can see exactly how much water they use daily, making the invisible visible and measurable</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h5>Goal-Driven Conservation</h5>
+                        <p>Setting monthly targets motivates households to reduce consumption through conscious behavior change</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5>Education & Tips</h5>
+                        <p>Practical water-saving tips educate users on simple actions that lead to significant conservation</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5>Community Action</h5>
+                        <p>Scalable to schools, neighborhoods, and municipalities for collective sustainability efforts</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h5>Economic Benefit</h5>
+                        <p>Reduced water usage directly lowers household utility bills, providing financial incentive</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h5>Environmental Protection</h5>
+                        <p>Conserving water protects rivers, lakes, and groundwater reserves for future generations</p>
+                    </div>
+                </div>
+
+            
+
+              
+                <div class="target-box" style="border-color: var(--accent-green); background: linear-gradient(135deg, #f0fff4, #e6fffa);">
+                    <h4 style="color: var(--accent-green);"><i class="fas fa-check-circle me-2"></i>Project Conclusion</h4>
+                    <p>
+                        The "Save Every Drop" project is more than just a website—it's a tool for change. By contributing to <strong>SDG 6: Clean Water and Sanitation</strong>, we help households become active participants in global water conservation efforts. Every liter saved in a home translates to reduced strain on municipal water systems, lower energy consumption for water treatment, and preserved freshwater ecosystems.
+                    </p>
+                    <p style="margin-bottom: 0;">
+                        Through education, tracking, and motivation, our project empowers individuals to make sustainable choices that benefit both their families and the planet. Together, drop by drop, we can build a water-secure future for all.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 footer-section">
+                    <h5>About Save Every Drop</h5>
+                    <p>We're committed to helping households conserve water through smart tracking and actionable insights. Together, we can make a difference for our planet.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="C:\Users\Arnav\Downloads\micro Home.html">Home</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro features.html">Features</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro trackers.html">Track Water</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro conservation tips.html">Tips</a></li>
+                        <li><a href="C:\Users\Arnav\Downloads\micro conservation tips.html">Conservation Tips</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 footer-section">
+                    <h5>Contact Us</h5>
+                    <ul>
+                        <li><i class="fas fa-envelope me-2"></i>info@saveeverydrop.com</li>
+                        <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>123 Water St, Conservation City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p style="text-align:center;">&copy; 2025 Save Every Drop. All rights reserved. | Made with 💙 for our planet</p>
+            </div>
+        </div>
+    </footer>
+
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
